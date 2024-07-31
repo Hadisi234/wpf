@@ -134,7 +134,7 @@ namespace System.Windows
                     }
                     else
                     {
-                        type = GridUnitType.Pixel;
+                        type = GridUnitType.Pixel;//ÏñËØ
                     }
 
                     return new GridLength(value, type);

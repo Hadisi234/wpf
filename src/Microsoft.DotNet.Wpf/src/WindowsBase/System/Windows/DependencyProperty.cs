@@ -258,7 +258,7 @@ namespace System.Windows
         private static DependencyProperty RegisterCommon(string name, Type propertyType, Type ownerType, PropertyMetadata defaultMetadata, ValidateValueCallback validateValueCallback)
         {
             FromNameKey key = new FromNameKey(name, ownerType);
-            lock (Synchronized)
+            lock (Synchronized)//同步静态对象
             {
                 if (PropertyFromName.Contains(key))
                 {
@@ -442,7 +442,7 @@ namespace System.Windows
             if ( validateValueCallback != null &&
                 !validateValueCallback(defaultValue))
             {
-                throw new ArgumentException(SR.Format(SR.DefaultValueInvalid, propertyName));
+                throw new ArgumentException(SR.Format(SR.DefaultValueInvalid, propertyName));//这里应该就是方法返回false报错的位置
             }
         }
 
@@ -1040,7 +1040,7 @@ namespace System.Windows
                 _name = name;
                 _ownerType = ownerType;
 
-                _hashCode = _name.GetHashCode() ^ _ownerType.GetHashCode();
+                _hashCode = _name.GetHashCode() ^ _ownerType.GetHashCode();//名字和拥有者类型算出一个哈希值
             }
 
             public void UpdateNameKey(Type ownerType)
@@ -1198,7 +1198,7 @@ namespace System.Windows
         /* property */ internal static ItemStructList<DependencyProperty> RegisteredPropertyList = new ItemStructList<DependencyProperty>(768);
 
         // Synchronized: Covered by DependencyProperty.Synchronized
-        private static Hashtable PropertyFromName = new Hashtable();
+        private static Hashtable PropertyFromName = new Hashtable();//存储这个依赖属性的所有键值对
 
         // Synchronized: Covered by DependencyProperty.Synchronized
         private static int GlobalIndexCount;
